@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <title>@ViewBag.Title</title>
+    <style>
+
+        .nav-tabs > .nav-item a.active {
+            background-image: linear-gradient(rgb(233, 236, 239), rgb(255, 255, 255,0));
+        }
+
+        .container.contenido {
+            background-image: linear-gradient(rgb(255, 255, 255,0),rgb(233, 236, 239) );
+        }
+    </style>
+
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <script>
+        $(document).ready(function () {
+            $('#DataTable').DataTable();
+
+        });
+    </script>
+
+</head>
+<body style="background-color: #e9ecef">
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1><img src="http://ideaware.co/wp-content/uploads/2018/02/logolb.png" />Sistema de facturación</h1>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            @Html.ActionLink("Inicio", "Index", "Home", null, new { @class = "navbar-brand" })
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+
+                @{
+                    var user = (FacturacionElectronica.Entities.Usuario)Session["User"];
+                    if (user == null)
+                    {
+                        Response.Redirect("~/LogIn/Index?NoLogeado=true", false);
+                    }
+                    else
+                    {
+
+
+
+                        <ul class="navbar-nav  mr-auto">
+                            @if (user.Rol.Where(x => x.nombre == "SUPERADMIN").FirstOrDefault() != null)
+                            {
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @{
+
+                                        if (user == null)
+                                        {
+                                            Response.Redirect("~/LogIn/Index", true);
+                                        }
+                                        else
+                                        {
+                                            <span>Administración</span>
+                                        }
+                                    }
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @Html.ActionLink("Empleados", "Index", "Empleados", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Clientes", "Index", "Clientes", null, new { @class = "dropdown-item" })
+                                    <hr />
+                                    @Html.ActionLink("Productos", "Index", "Productos", null, new { @class = "dropdown-item" })
+                                </div>
+                            </li>
+                            }
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Facturación</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @Html.ActionLink("Facturar", "Create", "Facturacion", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Consulta", "Index", "Facturacion", null, new { @class = "dropdown-item" })
+                                </div>
+
+                            </li>
+                        </ul>
+
+
+                    }
+                }
+
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @{
+
+                                if (user == null)
+                                {
+                                    Response.Redirect("~/LogIn/Index?NoLogeado=true", false);
+                                }
+                                else
+                                {
+                                    string nombre = user.Empleado.FirstOrDefault().nombres + " " + user.Empleado.FirstOrDefault().apellidos;
+                                    <span>@nombre</span>
+                                }
+                            }
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            @Html.ActionLink("Cerrar sesión", "CerrarSesion", "LogIn", null, new { @class = "dropdown-item text-danger" })
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br /><br />
+    <div class="container body-content" style="background-color:#fff; box-shadow: 0 0 5px #a1a1a1; padding-bottom:15px;">
+        <br />
+        @RenderBody()
+    </div>
+    <br />
+    <div class="container body-content">
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Fernando Gutiérrez Sobrino</p>
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<FacturacionElectronica.Entities.Factura>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Últimas facturas</h2>
+<span>
+    <a href="@Url.Action("Create", "Facturacion", null)">Nuevo<i class="fa fa-plus text-success"></i></a>
+</span>
+<hr />
+
+<table id="DataTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Vendedor
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Fecha de compra
+
+            </th>
+            <th>
+                Facturado?
+            </th>
+            <th>
+                Valor total
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.userName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.nombres) @Html.DisplayFor(modelItem => item.Cliente.apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaCompra)
+                </td>
+                <td>
+                    @if (!item.facturado)
+                    {
+                        <span class="text-danger">No</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Si</span>
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.valorTotal)
+                </td>
+                <td>
+                    @if (item.facturado)
+                    {
+                        <span class="text-muted"><i class="fa fa-edit"></i></span>
+
+                        <a href="@Url.Action("Facturar", "Facturacion", new { id = item.id })" title="Generar factura" ><i class="fa fa-receipt text-default"></i></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("CrearFactura", "Facturacion", new { idFactura = item.id })" title="Continuar facturando" class=""><i class="fa fa-edit text-warning"></i></a>
+
+                        <span class="text-muted"><i class="fa fa-receipt text-default"></i></span>
+                    }
+
+
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

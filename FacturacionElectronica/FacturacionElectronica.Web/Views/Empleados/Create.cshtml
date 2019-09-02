@@ -1,0 +1,100 @@
+﻿@model FacturacionElectronica.Entities.Empleado
+
+@{
+    ViewBag.Title = "Crear empleado";
+}
+
+<h2>Crear empleado</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.nombres, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="">
+                @Html.EditorFor(model => model.nombres, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombres, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.apellidos, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="">
+                @Html.EditorFor(model => model.apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.apellidos, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.fechaNacimiento, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="">
+                @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "form-control datepicker", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.foto, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="">
+
+                <input type="file" name="foto" id="foto" />
+                @Html.ValidationMessageFor(model => model.foto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <hr />
+    <h2>Datos de la cuenta</h2>
+    <div class="row">
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Usuario.email, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="">
+                @Html.EditorFor(model => model.Usuario.email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Usuario.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="roles">Rol</label>
+            <div class="">
+                <select name="roles" id="roles" class="form-control">
+                    @foreach (var item in Model.Usuario.Rol)
+                    {
+                        <option value="@item.id">@item.nombre</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Usuario.userName, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="">
+                @Html.EditorFor(model => model.Usuario.userName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Usuario.userName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Usuario.password, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="">
+                @Html.EditorFor(model => model.Usuario.password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Usuario.password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a href="@Url.Action("Index", "Empleados", null)" class="text-default"><i class="fa fa-arrow-left"></i>Regresar</a>
+            <button type="submit" value="Create" class="btn btn-success">Crear <i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+</div>
+}
+
+
+

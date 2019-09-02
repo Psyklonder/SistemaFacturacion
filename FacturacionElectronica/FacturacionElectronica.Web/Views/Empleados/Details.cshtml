@@ -1,0 +1,67 @@
+﻿@model FacturacionElectronica.Entities.Empleado
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Empleado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apellidos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apellidos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaNacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaNacimiento)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.userName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.userName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.habilitado)
+        </dt>
+
+        <dd>
+            @if (Model.Usuario.habilitado)
+            {
+                <span class="text-succes">Habilitado</span>
+            }
+            else
+            {
+                <span class="text-danger">Deshabilitado</span>
+            }
+
+        </dd>
+
+    </dl>
+</div>
+<p>
+
+    @Html.ActionLink("Regresar", "Index")
+</p>

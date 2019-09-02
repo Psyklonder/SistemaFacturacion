@@ -1,0 +1,49 @@
+﻿@model IEnumerable<FacturacionElectronica.Entities.Cliente>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Clientes</h2>
+
+<span>
+    <a href="@Url.Action("Create", "Clientes", null)" title="Borrar">Nuevo<i class="fa fa-plus text-success"></i></a>
+</span>
+<hr />
+<table id="DataTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.documento)
+            </th>
+            <th>
+                Ciudad
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombres) @Html.DisplayFor(modelItem => item.apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.documento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ciudad.nombre)
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Clientes", new { id = item.id })" title="Detalle"><i class="fa fa-eye text-success-new"></i></a>
+                    <a href="@Url.Action("Edit", "Clientes", new { id = item.id })" title="Editar"><i class="fa fa-edit text-warning"></i></a>
+                    <a href="@Url.Action("Delete", "Clientes", new { id = item.id })" title="Borrar"><i class="fa fa-trash text-danger"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

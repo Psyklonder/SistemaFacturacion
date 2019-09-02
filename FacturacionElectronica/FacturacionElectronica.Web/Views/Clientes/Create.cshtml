@@ -1,0 +1,100 @@
+﻿@model FacturacionElectronica.Entities.Cliente
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Crear clientes</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.nombres, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="">
+                    @Html.EditorFor(model => model.nombres, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.nombres, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.apellidos, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="">
+                    @Html.EditorFor(model => model.apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.apellidos, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.documento, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="">
+                    @Html.EditorFor(model => model.documento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.documento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.fechaNacimiento, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="">
+                    @Html.EditorFor(model => model.fechaNacimiento, new { htmlAttributes = new { @class = "form-control", @id = "date", @name = "date", @placeholder = "dd/mm/aaaa" } })
+                    @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.direccion, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="">
+                    @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.direccion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.telefono, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="">
+                    @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+                      
+            <div class="form-group col-md-6">
+                <label for="roles">Ciudad</label>
+                <div class="">
+                    
+                    <select name="ciudad" id="ciudad" class="form-control">
+                        @foreach (var item in Model.Ciudades)
+                        {
+                            <option value="@item.id">@item.nombre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="@Url.Action("Index", "Clientes", null)" class="text-default"><i class="fa fa-arrow-left"></i>Regresar</a>
+                <button type="submit" value="Create" class="btn btn-success">Crear <i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+
