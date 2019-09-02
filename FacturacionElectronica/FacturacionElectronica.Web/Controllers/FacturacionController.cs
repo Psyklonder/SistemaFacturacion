@@ -128,8 +128,8 @@ namespace FacturacionElectronica.Web.Controllers
             int _idFactura = int.Parse(formCollection.Get("idFactura"));
 
             FacturaBL.Facturar(_idFactura);
-
-            return RedirectToAction("Index");
+           return RedirectToAction("Facturar",new { id= _idFactura });
+           // return RedirectToAction("Index");
 
         }
 
@@ -204,6 +204,7 @@ namespace FacturacionElectronica.Web.Controllers
 
             Response.Write(text);
             Response.End();
+           
         }
 
         // GET: Facturacion/Edit/5

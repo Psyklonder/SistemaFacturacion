@@ -60,7 +60,9 @@ namespace FacturacionElectronica.BL
         {
             try
             {
-                db.Entry((Factura)registro).State = EntityState.Added;
+                var _registro = (Factura)registro;
+                _registro.fechaCompra = DateTime.Now;
+                db.Entry(_registro).State = EntityState.Added;
                 db.SaveChanges();
                 return db.Factura.Include("Usuario").Include("Cliente").Where(x => x.id == ((Factura)registro).id).FirstOrDefault();
             }
