@@ -21,7 +21,11 @@ namespace FacturacionElectronica.BL
         {
             try
             {
-                var usuario = db.Usuario.Where(x => x.userName == registro.userName.Trim() && x.password == registro.password.Trim() && x.habilitado).FirstOrDefault();
+                var _usuarios = db.Usuario.ToList();
+
+                string _password = Utilidades.GenerarHash(registro.password.Trim());
+               // _password = registro.password;
+                var usuario = db.Usuario.Where(x => x.userName == registro.userName.Trim() && x.password == _password && x.habilitado).FirstOrDefault();
                 if (usuario != null)
                 {
                     return usuario;
@@ -60,7 +64,7 @@ namespace FacturacionElectronica.BL
             try
             {
                 Usuario _usuario = ((Empleado)registro).Usuario;
-              
+
                 db.Entry(_usuario).State = EntityState.Modified;
                 db.SaveChanges();
                 return registro;
@@ -74,10 +78,6 @@ namespace FacturacionElectronica.BL
         public object Guardar(object registro)
         {
             var entity = (Usuario)registro;
-            byte[] data = System.Text.Encoding.ASCII.GetBytes(entity.password);
-            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
-            String hash = System.Text.Encoding.ASCII.GetString(data);
-            entity.password = hash;
             db.Usuario.Add(entity);
             db.SaveChanges();
             return entity;

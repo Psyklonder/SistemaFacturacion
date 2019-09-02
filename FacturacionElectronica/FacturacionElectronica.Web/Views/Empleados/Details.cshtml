@@ -4,27 +4,11 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Empleado</h4>
+    <h2>Detale del empleado:</h2>
+    <p> @Html.DisplayFor(model => model.nombres)   @Html.DisplayFor(model => model.apellidos)</p>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nombres)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nombres)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.apellidos)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.apellidos)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.fechaNacimiento)
@@ -44,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Usuario.habilitado)
+            Estado
         </dt>
 
         <dd>
@@ -62,6 +46,5 @@
     </dl>
 </div>
 <p>
-
-    @Html.ActionLink("Regresar", "Index")
+    <a href="@Url.Action("Index", "Empleados", null)" class="text-default"><i class="fa fa-arrow-left"></i>Regresar</a>
 </p>

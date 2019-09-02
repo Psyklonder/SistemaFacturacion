@@ -58,8 +58,9 @@ namespace FacturacionElectronica.BL
                 IbaseBL _base = new UsuarioBL();
 
                 _empleado.Usuario.fechaCreacion = DateTime.Now;
+                _empleado.Usuario.password= Utilidades.GenerarHash(_empleado.Usuario.password);
                 var _usuario = (Usuario)_base.Guardar(_empleado.Usuario);
-
+                
                 db.Usuario.Add(_usuario);
                 db.Usuario.Attach(_usuario);
 
