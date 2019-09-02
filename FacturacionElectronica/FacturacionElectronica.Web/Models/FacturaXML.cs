@@ -16,30 +16,30 @@ namespace FacturacionElectronica.Web.Models
         {
         }
 
-        [XmlElement("CodigoFactura")]
+        //[XmlElement("CodigoFactura")]
         public string CodigoFactura { get; set; }
 
-        [XmlElement("FechaCompra")]
+        //[XmlElement("FechaCompra")]
         public string FechaCompra { get; set; }
 
-        [XmlElement("Vendedor")]
+        ///[XmlElement("Vendedor")]
         public string Vendedor { get; set; }
 
-        [XmlElement("Cliente")]
+        //[XmlElement("Cliente")]
         public string Cliente { get; set; }
 
-        [XmlElement("ValorTotal")]
+        //[XmlElement("ValorTotal")]
         public string ValorTotal { get; set; }
 
 
 
         //[XmlArrayItem("NombreProducto")]
         //[XmlArrayItem("Precio")]
-        [XmlArray]
-        public DetalleFactura[] Detalle { get; set; }
+        // [XmlArray]
+        public List<DetalleProducto> Detalle { get; set; }
 
-        
-        public class DetalleFactura
+
+        public class DetalleProducto
         {
             [XmlElement]
             public string NombreProducto { get; set; }

@@ -134,6 +134,16 @@ namespace FacturacionElectronica.Web.Controllers
         }
 
 
+        string SerializeObject<FacturaXML>(FacturaXML toSerialize)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
+
+            using (StringWriter textWriter = new StringWriter())
+            {
+                xmlSerializer.Serialize(textWriter, toSerialize);
+                return textWriter.ToString();
+            }
+        }
         public ActionResult Facturar(int? id)
         {
             int.TryParse(id.ToString(), out int _id);
@@ -148,20 +158,24 @@ namespace FacturacionElectronica.Web.Controllers
                 DateTime _fechaCompra = DateTime.Parse(_factura.fechaCompra.ToString());
                 _xml.FechaCompra = _fechaCompra.ToString("dd/MM/yyyy hh:mm:ss");
                 _xml.CodigoFactura = Encriptacion.Encrypt(_factura.id.ToString().PadRight(20));
-                _xml.Detalle = new FacturaXML.DetalleFactura[_factura.DetalleFactura.Count];
+                _xml.Detalle = new List<FacturaXML.DetalleProducto>();
 
-                int _i = 0;
+                _xml.Detalle = new List<FacturaXML.DetalleProducto>();
+
                 foreach (var item in _factura.DetalleFactura)
                 {
-                    _xml.Detalle[_i]=new FacturaXML.DetalleFactura { NombreProducto = item.Producto.nombre, Precio = item.Producto.precio.ToString() };
-                    _i++;
+                    _xml.Detalle.Add(new FacturaXML.DetalleProducto
+                    {
+                        NombreProducto = item.Producto.nombre,
+                        Precio = item.Producto.precio.ToString()
+                    }
+                    );
                 }
 
-
-
-                //string DES = Encriptacion.Decrypt(ENC);
-                string _xmlFile = CreateXML(_xml);
-                CargarArchivoXML(_xmlFile);
+                string _serializado = SerializeObject(_xml);
+                
+                
+                CargarArchivoXML(_serializado);
                 return RedirectToAction("Index", "Facturacion");
             }
             else
@@ -170,21 +184,7 @@ namespace FacturacionElectronica.Web.Controllers
             }
         }
 
-        public string CreateXML(FacturaXML YourClassObject)
-        {
-            XmlDocument xmlDoc = new XmlDocument();   //Represents an XML document, 
-                                                      // Initializes a new instance of the XmlDocument class.          
-            XmlSerializer xmlSerializer = new XmlSerializer(YourClassObject.GetType());
-            // Creates a stream whose backing store is memory. 
-            using (MemoryStream xmlStream = new MemoryStream())
-            {
-                xmlSerializer.Serialize(xmlStream, YourClassObject);
-                xmlStream.Position = 0;
-                //Loads the XML document from the specified string.
-                xmlDoc.Load(xmlStream);
-                return xmlDoc.InnerXml;
-            }
-        }
+       
 
         protected void CargarArchivoXML(string TextoXml)
         {
@@ -199,7 +199,7 @@ namespace FacturacionElectronica.Web.Controllers
             Response.ClearHeaders();
             Response.Charset = "utf-8";
             Response.AppendHeader("Content-Length", text.Length.ToString());
-            Response.ContentType = "application/xml";
+            Response.ContentType = "text/xml";
             Response.AppendHeader("Content-Disposition", "attachment;filename=\"output.xml\"");
 
             Response.Write(text);
